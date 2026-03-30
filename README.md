@@ -1,101 +1,112 @@
-# Data Science Project: Trading Behavior vs Market Sentiment Analysis
+# 📈 AlphaPulse — Investment Risk & Volatility Monitor
 
-##  Project Overview
-This project analyzes the relationship between cryptocurrency trader behavior and Bitcoin market sentiment (Fear & Greed Index) to identify patterns, divergences, and strategic trading opportunities.
+> A production-grade quantitative risk analytics engine for boutique investment firms.
 
-### **Key Question:**
-> "How does trading behavior (profitability, risk, volume, leverage) align or diverge from market sentiment (fear vs greed), and what hidden signals can inform smarter trading strategies?"
+---
 
-##  Datasets Used
+## 🧭 Overview
 
-### 1. **Hyperliquid Historical Trader Data**
- **Source:** Provided trading dataset
- **Key Columns:**
-  - `account`, `symbol`, `execution price`, `size`
-  - `side` (buy/sell), `time`, `start position`
-  - `closedPnL` (profit/loss), `leverage`, `event`
-**Purpose:** Analyze actual trading behavior patterns
+AlphaPulse is a Python-powered financial analytics pipeline that computes critical market risk metrics and exports **Tableau-ready datasets** for interactive portfolio dashboards.
 
-### 2. **Bitcoin Fear & Greed Index**
- **Source:** Alternative.me Fear & Greed Index
- **Key Columns:**
-   `Date`, `Classification` (Fear/Greed)
- **Purpose:** Measure market sentiment extremes
+It calculates:
+- ✅ **Value at Risk (VaR)** — Historical, Parametric, and Monte Carlo methods
+- ✅ **Monte Carlo Simulation** — 10,000 GBM paths, 252-day forecast
+- ✅ **Rolling Volatility** — 7 / 14 / 30 / 60-day annualised windows
+- ✅ **Correlation Matrix** — Dynamic heatmap across all technical indicators
+- ✅ **Core Price Metrics** — Candlestick data, Bollinger Bands, RSI, MACD, ATR
 
-##  Analysis Performed
+---
 
-### **Core Analysis Areas:**
-1. **Profitability vs Sentiment** - Do traders make more money during fear or greed?
-2. **Risk (Leverage) Analysis** - How does risk-taking change with sentiment?
-3. **Trading Volume Patterns** - Does activity align with sentiment?
-4. **Hidden Signals** - Identifying contrarian opportunities
+## 🗂️ Project Structure
 
-### **Key Techniques:**
-- Time series merging & alignment
-- Statistical correlation analysis
-- Comparative visualization (fear vs greed periods)
-- Pattern recognition in trading behavior
-- Strategic recommendation development
+```
+alphapulse/
+├── alphapulse_engine.py          ← Main analytics engine (run this)
+├── cleaned_data.csv              ← Input: historical OHLCV + technical indicators
+├── requirements.txt              ← Python dependencies
+├── TABLEAU_DASHBOARD_GUIDE.md    ← Step-by-step Tableau build instructions
+├── tableau_outputs/
+│   ├── tableau_price_volume.csv       → Tab 1: Price, Volume, RSI, MACD
+│   ├── tableau_rolling_volatility.csv → Tab 2: Rolling Volatility & Regimes
+│   ├── tableau_monte_carlo.csv        → Tab 3: Monte Carlo Fan Chart
+│   ├── tableau_var_metrics.csv        → Tab 4: VaR Executive Summary
+│   └── tableau_correlation_matrix.csv → Tab 5: Correlation Heatmap
+└── README.md
+```
 
-##  How to Run This Project
+---
 
-###  Google Colab 
-1. **Upload data to Google Drive** in folder `csv_files/`
-2. **Open** `https://colab.research.google.com/drive/1HqfRHJSMCegxhvh4IVbcL85jLSXhhQFu?usp=sharing` in Google Colab
-3. **Mount Google Drive:**
-   ```python
-   from google.colab import drive
-   drive.mount('/content/drive')
-   ```
-4. **Update file paths:**
-   ```python
-   trader_data = pd.read_csv('/content/historical_data.csv')
-   sentiment_data = pd.read_csv('/content/fear_greed_index.csv')
-   ```
-5. **Run all cells sequentially**
+## ⚙️ Setup & Usage
 
-## 📈 Key Findings Summary
+### 1. Clone the repo
+```bash
+git clone https://github.com/YOUR_USERNAME/alphapulse.git
+cd alphapulse
+```
 
-### **Major Insights:**
-1. **Contrarian Profitability:** Traders tend to be more profitable during **Fear** periods
-2. **Risk Mismatch:** Highest leverage used during **Greed** periods (overconfidence)
-3. **Volume-Sentiment Alignment:** Trading activity spikes with greed sentiment
-4. **Quality-Quantity Tradeoff:** More trades ≠ better results during greed
+### 2. Install dependencies
+```bash
+pip install -r requirements.txt
+```
 
-### **Statistical Highlights:**
-- **Correlation (Sentiment vs Profit):** 
-1. Sentiment & Profit Correlation: -0.117
-   → Negative correlation
-2. Sentiment & Volume Correlation: -0.130
-   → Weak relationship
-- **Volume Multiplier (Fear→Greed):** 0.4x times higher
-- **Win Rate Difference:** 18.6% higher during fear periods
+### 3. Run the engine
+```bash
+python alphapulse_engine.py
+```
 
-##  Trading Strategy Recommendations
+All 5 Tableau CSVs will be regenerated inside `tableau_outputs/`.
 
-### **Strategy 1: Fear-Exploitation**
-- **When:** Fear Index > Threshold
-- **Action:** Increase position size
-- **Risk:** Moderate leverage (X.XX max)
-- **Exit:** Shift to greed sentiment
+---
 
-### **Strategy 2: Greed-Defensive**
-- **When:** Greed Index > Threshold
-- **Action:** Reduce position sizes
-- **Risk:** Lower leverage, take profits
-- **Focus:** Capital preservation
+## 📊 Tableau Dashboard Tabs
 
-### **Strategy 3: Sentiment-Aware Risk Management**
-- Dynamic leverage caps based on sentiment
-- Position sizing adjusted for sentiment phase
-- Profit-taking schedules tied to sentiment shifts
+| Tab | CSV | Visuals |
+|-----|-----|---------|
+| 1 — Price & Volume | `tableau_price_volume.csv` | Candlestick, Volume Z-Score, RSI, MACD |
+| 2 — Rolling Volatility | `tableau_rolling_volatility.csv` | Vol Fan, Regime Bars, Return Distribution |
+| 3 — Monte Carlo | `tableau_monte_carlo.csv` | Cone of Uncertainty, What-If Parameter |
+| 4 — VaR Summary | `tableau_var_metrics.csv` | KPI Tiles, Max Drawdown, VaR Table |
+| 5 — Correlation | `tableau_correlation_matrix.csv` | Heatmap Matrix, Top Pairs Bar |
 
-##  Output Files Generated
+See [`TABLEAU_DASHBOARD_GUIDE.md`](./TABLEAU_DASHBOARD_GUIDE.md) for detailed sheet-by-sheet build instructions.
 
- `profit_vs_sentiment.png` , 4-panel chart showing profit, volume, and trade patterns , Visual comparison of key metrics 
- `leverage_vs_sentiment.png` , Leverage statistics and distribution , Risk analysis visualization 
- `trading_patterns_time_series.png` ,Time series of sentiment, profit, volume , Pattern recognition over time 
- `ds_report.pdf` , Comprehensive analysis report , Final insights and recommendations 
+---
+
+## 📐 Risk Metrics (Sample Output)
+
+| Metric | Value |
+|--------|-------|
+| Portfolio Value | $1,000,000 |
+| Historical VaR 95% (1-day) | −2.78% → **$27,812** |
+| CVaR / Expected Shortfall | −4.55% → **$45,541** |
+| Max Drawdown | **−40.30%** (Sept 2022) |
+| Monte Carlo Median (1-yr) | **$304.90** |
+| Monte Carlo Bear Case (P5) | $155.53 |
+| Monte Carlo Bull Case (P95) | $595.34 |
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Tool |
+|-------|------|
+| Data Ingestion | `pandas` |
+| Quantitative Math | `numpy`, `scipy` |
+| Simulation | NumPy vectorised GBM (10,000 paths) |
+| Visualisation | Tableau (connect CSVs directly) |
+| Scheduling | cron / Windows Task Scheduler |
+
+
+## 📅 Development Roadmap
+
+| Week | Focus | Status |
+|------|-------|--------|
+| Week 1 | Data Acquisition & Cleaning | ✅ Done |
+| Week 2 | Quantitative Analysis (VaR, Monte Carlo) | ✅ Done |
+| Week 3 | Tableau Visual Storytelling + What-If Params | 🔄 In Progress |
+| Week 4 | Automation + Executive Summary Tab | 📋 Planned |
+
+---
 
 
 
