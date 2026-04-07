@@ -96,17 +96,36 @@ See [`TABLEAU_DASHBOARD_GUIDE.md`](./TABLEAU_DASHBOARD_GUIDE.md) for detailed sh
 | Visualisation | Tableau (connect CSVs directly) |
 | Scheduling | cron / Windows Task Scheduler |
 
+---
+
+## 🔁 Automating Data Refresh
+
+To refresh daily after market close, schedule `alphapulse_engine.py`:
+
+**Linux / macOS (cron):**
+```bash
+30 18 * * 1-5 cd /path/to/alphapulse && python alphapulse_engine.py
+```
+
+**Windows Task Scheduler:**
+- Action: `python C:\path\to\alphapulse\alphapulse_engine.py`
+- Trigger: Daily, 6:30 PM Mon–Fri
+
+Tableau's **Hyper API** or **Tableau Prep** can then auto-ingest the refreshed CSVs without any manual steps.
+
+---
 
 ## 📅 Development Roadmap
 
 | Week | Focus | Status |
 |------|-------|--------|
-| Week 1 | Data Acquisition & Cleaning | ✅ Done |
-| Week 2 | Quantitative Analysis (VaR, Monte Carlo) | ✅ Done |
-| Week 3 | Tableau Visual Storytelling + What-If Params | 🔄 In Progress |
-| Week 4 | Automation + Executive Summary Tab | 📋 Planned |
+| Week 5 | Data Acquisition & Cleaning | ✅ Done |
+| Week 6 | Quantitative Analysis (VaR, Monte Carlo) | ✅ Done |
+| Week 7 | Tableau Visual Storytelling + What-If Params | ✅ Done |
+| Week 8 | Automation + Executive Summary Tab | ✅ Done |
 
 ---
+
 
 
 
